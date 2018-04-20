@@ -19,5 +19,5 @@ public class UserController {
 	@RequestMapping("/all") 
 	public Map<String, User> getAll() {
 		return userService.getAll();
-	}
+	} 
 }

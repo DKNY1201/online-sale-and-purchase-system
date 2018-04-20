@@ -15,6 +15,11 @@ public class Payment {
 	private Double totalAmount;
 	private Long userId;
 	private Double tax;
+	
+	public Payment() {
+		
+	}
+	
 	public Long getId() {
 		return id;
 	}

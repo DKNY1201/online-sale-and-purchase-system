@@ -15,6 +15,11 @@ public class CardDetail {
 	private String cardType;
 	private String cardNumber; // Long
 	private Date cardExpirationDate;
+	
+	public CardDetail() {
+		
+	}
+	
 	public Long getId() {
 		return id;
 	}

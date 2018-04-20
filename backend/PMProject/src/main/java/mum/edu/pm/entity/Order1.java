@@ -19,6 +19,11 @@ public class Order1 {
 	private String orderStatus; // Enum
 	private Double tax;
 	private Double total;
+	
+	public Order1() {
+		
+	}
+	
 	public Long getId() {
 		return id;
 	}

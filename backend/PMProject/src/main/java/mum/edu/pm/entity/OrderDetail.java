@@ -11,6 +11,11 @@ public class OrderDetail {
 	private Long id;
 	private Long orderId;
 	private Long productId;
+	
+	public OrderDetail() {
+		
+	}
+	
 	public Long getId() {
 		return id;
 	}
