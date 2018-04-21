@@ -1,70 +1,142 @@
 package mum.edu.pm.entity;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CascadeType;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
-public class Product {
-    @Id
-    @GeneratedValue
-    private Long id;
-    private Long userId;
-    private String itemName;
-    private int quantity;
-    private Double price;
-    private String description;
+@Table(name = "item")
+public class Product implements Serializable {
+	private static final long serialVersionUID = 5186013952828648626L;
 
-    public Product() {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    }
+	@Column(name = "category")
+	private String productCategory;
 
-    public Long getId() {
-        return id;
-    }
+	@Column(name = "description")
+	private String productDescription;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Column(name = "manufacturer")
+	private String productManufacturer;
 
-    public Long getUserId() {
-        return userId;
-    }
+	@NotEmpty(message = "Product Name is mandatory")
+	@Column(name = "name")
+	private String productName;
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+	@NotNull(message = "Please provide some price")
+	@Min(value = 100, message = "Minimum value should be greater than 100")
+	@Column(name = "price")
+	private double productPrice;
 
-    public String getItemName() {
-        return itemName;
-    }
+	@Column(name = "unit")
+	private String unitStock;
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
+	@Transient
+	private MultipartFile productImage;
 
-    public int getQuantity() {
-        return quantity;
-    }
+	@ManyToOne
+	@JoinColumn(name = "vendorId")
+	private User vendor;
+	// Getters and Setter
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+	public Product() {
+	}
 
-    public Double getPrice() {
-        return price;
-    }
+	public String getProductCategory() {
+		return productCategory;
+	}
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public User getVendor() {
+		return vendor;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setVendor(User vendor) {
+		this.vendor = vendor;
+	}
 
+	public String getProductDescription() {
+		return productDescription;
+	}
+
+	public String getProductManufacturer() {
+		return productManufacturer;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public double getProductPrice() {
+		return productPrice;
+	}
+
+	public String getUnitStock() {
+		return unitStock;
+	}
+
+	public void setProductCategory(String productCategory) {
+		this.productCategory = productCategory;
+	}
+
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
+	}
+
+	public void setProductManufacturer(String productManufacturer) {
+		this.productManufacturer = productManufacturer;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public void setProductPrice(double productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public void setUnitStock(String unitStock) {
+		this.unitStock = unitStock;
+	}
+
+	public MultipartFile getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(MultipartFile productImage) {
+		this.productImage = productImage;
+	}
+
+	// Constructors
+	public Product(Long productId, String productCategory, String productDescription, String productManufacturer, String productName, double productPrice,
+			String unitStock) {
+		super();
+		this.id = productId;
+		this.productCategory = productCategory;
+		this.productDescription = productDescription;
+		this.productManufacturer = productManufacturer;
+		this.productName = productName;
+		this.productPrice = productPrice;
+		this.unitStock = unitStock;
+	}
 }

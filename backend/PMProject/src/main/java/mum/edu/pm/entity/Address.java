@@ -3,26 +3,27 @@ package mum.edu.pm.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 public class Address {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //private Long usedId;
     private String street;
     private String city;
     private String state;
-    private String zipcode; // Int
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
-
+    private String zipcode;
     private String phoneNum;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private User user;
 
     public Address() {
 
@@ -33,9 +34,9 @@ public class Address {
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
-        this.user = user;
         this.phoneNum = phoneNum;
     }
+    
 
     public Long getId() {
         return id;
@@ -88,4 +89,6 @@ public class Address {
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
+    
+    
 }
