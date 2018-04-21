@@ -1,5 +1,6 @@
 package mum.edu.pm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "product")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Product implements Serializable {
     private static final long serialVersionUID = 5186013952828648626L;
 
