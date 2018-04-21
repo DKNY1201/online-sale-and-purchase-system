@@ -11,8 +11,8 @@ public class UserServiceImpl implements IUserService {
     Map<String, User> map = new HashMap<>();
 
     public Map<String, User> getAll() {
-        User u1 = new User("a","b");
-        User u2 = new User("c", "d");
+        User u1 = new User("a", "b", "c", "d");
+        User u2 = new User("c", "d", "a", "b");
         map.put("1", u1);
         map.put("2", u2);
         return map;
