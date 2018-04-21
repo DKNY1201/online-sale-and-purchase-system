@@ -4,10 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
 import java.util.Date;
 
 @Entity
@@ -19,30 +16,16 @@ public class Payment {
     private Double totalAmount;
     private Long userId;
     private Double tax;
-    
+
     @OneToOne
     private CustomerOrder customerOrder;
-    
+
     public Payment() {
 
     }
-    
-    public CustomerOrder getCustomerOrder() {
-		return customerOrder;
-	}
 
-
-	public void setCustomerOrder(CustomerOrder customerOrder) {
-		this.customerOrder = customerOrder;
-	}
-
-
-	public Long getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Date getPaidDate() {
@@ -77,4 +60,11 @@ public class Payment {
         this.tax = tax;
     }
 
+    public CustomerOrder getCustomerOrder() {
+        return customerOrder;
+    }
+
+    public void setCustomerOrder(CustomerOrder customerOrder) {
+        this.customerOrder = customerOrder;
+    }
 }

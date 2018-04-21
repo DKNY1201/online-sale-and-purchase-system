@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -19,8 +17,7 @@ public class Address {
     private String city;
     private String state;
     private String zipcode;
-    private String phoneNum;
-    
+
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private User user;
@@ -29,25 +26,15 @@ public class Address {
 
     }
 
-    public Address(String street, String city, String state, String zipcode, String phoneNum) {
+    public Address(String street, String city, String state, String zipcode) {
         this.street = street;
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
-        this.phoneNum = phoneNum;
     }
-    
 
     public Long getId() {
         return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getStreet() {
@@ -82,13 +69,11 @@ public class Address {
         this.zipcode = zipcode;
     }
 
-    public String getPhoneNum() {
-        return phoneNum;
+    public User getUser() {
+        return user;
     }
 
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
+    public void setUser(User user) {
+        this.user = user;
     }
-    
-    
 }

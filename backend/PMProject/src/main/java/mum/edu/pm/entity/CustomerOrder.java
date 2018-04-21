@@ -1,8 +1,5 @@
 package mum.edu.pm.entity;
 
-import java.io.Serializable;
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,79 +11,76 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "customerorder")
 public class CustomerOrder implements Serializable {
-	private static final long serialVersionUID = -6571020025726257848L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    private static final long serialVersionUID = -6571020025726257848L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "customerId")
-	private User customer;
+    @ManyToOne
+    @JoinColumn(name = "customerId")
+    private User customer;
 
-	private String shippingAddress;
+    private String shippingAddress;
 
-	private String billingAddress;
+    private String billingAddress;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "paymentId")
-	private Payment payment;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "paymentId")
+    private Payment payment;
 
-	@OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<CartItem> cartItems;
+    @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<CartItem> cartItems;
 
-	public CustomerOrder() {
-	}
+    public CustomerOrder() {
+    }
 
-	public String getShippingAddress() {
-		return shippingAddress;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setShippingAddress(String shippingAddress) {
-		this.shippingAddress = shippingAddress;
-	}
+    public User getCustomer() {
+        return customer;
+    }
 
-	public String getBillingAddress() {
-		return billingAddress;
-	}
+    public void setCustomer(User customer) {
+        this.customer = customer;
+    }
 
-	public void setBillingAddress(String billingAddress) {
-		this.billingAddress = billingAddress;
-	}
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
 
-	public Long getCustomerOrderId() {
-		return id;
-	}
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
 
-	public void setCustomerOrderId(Long customerOrderId) {
-		this.id = customerOrderId;
-	}
+    public String getBillingAddress() {
+        return billingAddress;
+    }
 
-	public Payment getPayment() {
-		return payment;
-	}
+    public void setBillingAddress(String billingAddress) {
+        this.billingAddress = billingAddress;
+    }
 
-	public void setPayment(Payment payment) {
-		this.payment = payment;
-	}
+    public Payment getPayment() {
+        return payment;
+    }
 
-	public List<CartItem> getCartItems() {
-		return cartItems;
-	}
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
 
-	public void setCartItem(List<CartItem> cartItems) {
-		this.cartItems = cartItems;
-	}
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
 
-	public User getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(User customer) {
-		this.customer = customer;
-	}
-
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
 }
