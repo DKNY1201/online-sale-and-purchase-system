@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import classes from './Modal.css';
 import BackDrop from '../Backdrop/Backdrop';
-import Aux from '../../../hoc/Auxi/Aux';
+import Aux from '../../../hoc/VirtualWrapper/VirtualWrapper';
 
 class Modal extends Component {
     shouldComponentUpdate(nextProps) {
