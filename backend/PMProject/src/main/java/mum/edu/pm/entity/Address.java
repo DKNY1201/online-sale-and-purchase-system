@@ -6,54 +6,39 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-public class Address implements Serializable{
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -949575859121821378L;
-	@Id
-    @GeneratedValue
+public class Address {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    
     private Long id;
-    //private Long usedId;
     private String street;
     private String city;
     private String state;
-    private String zipcode; // Int
+    private String zipcode;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "user_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private User user;
-
-    private String phoneNum;
 
     public Address() {
 
     }
 
-    public Address(String street, String city, String state, String zipcode, String phoneNum) {
+    public Address(String street, String city, String state, String zipcode) {
         this.street = street;
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
-        this.user = user;
-        this.phoneNum = phoneNum;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getStreet() {
@@ -88,11 +73,11 @@ public class Address implements Serializable{
         this.zipcode = zipcode;
     }
 
-    public String getPhoneNum() {
-        return phoneNum;
+    public User getUser() {
+        return user;
     }
 
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
