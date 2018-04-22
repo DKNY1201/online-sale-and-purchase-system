@@ -10,12 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class User {
-    @Id
+public class User implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5341036222877332688L;
+
+	@Id
     @GeneratedValue
     private Long id;
 
@@ -29,8 +36,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Address> addresses;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Address> addresses;
 
     @Size(min = 2, max = 40)
     private String firstName;
@@ -43,7 +50,7 @@ public class User {
     private String email;
 
     public User() {
-        addresses = new ArrayList<>();
+//        addresses = new ArrayList<>();
     }
 
     public User(String userName, String passWord) {
@@ -83,13 +90,13 @@ public class User {
         this.role = role;
     }
 
-    public List<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
-    }
+//    public List<Address> getAddresses() {
+//        return addresses;
+//    }
+//
+//    public void setAddresses(List<Address> addresses) {
+//        this.addresses = addresses;
+//    }
 
     public String getFirstName() {
         return firstName;

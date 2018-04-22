@@ -1,15 +1,22 @@
 package mum.edu.pm.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Address {
-    @Id
+public class Address implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -949575859121821378L;
+	@Id
     @GeneratedValue
     private Long id;
     //private Long usedId;
@@ -18,7 +25,7 @@ public class Address {
     private String state;
     private String zipcode; // Int
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "user_id")
     private User user;
 
