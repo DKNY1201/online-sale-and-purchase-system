@@ -1,19 +1,20 @@
 package mum.edu.pm.controller;
 
-import mum.edu.pm.entity.CustomerOrder;
-import mum.edu.pm.entity.Payment;
 import mum.edu.pm.service.CustomerOrderService;
+import mum.edu.pm.service.IUserService;
 import mum.edu.pm.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @RestController
+@RequestMapping(value = "/orders")
 public class OrderController {
+
+    @Autowired
+    private IUserService userService;
 
     @Autowired
     private CustomerOrderService customerOrderService;
@@ -21,12 +22,9 @@ public class OrderController {
     @Autowired
     private PaymentService paymentService;
 
-    @PostMapping("/customer/")
+    @PostMapping("/createOrder")
     @PreAuthorize(value = "hasAnyRole('ROLE_CUSTOMER')")
-    public String createOrder(@PathVariable("paymentId") String paymentId) {
-
-        Optional<Payment> payment = paymentService.getPayment(Long.valueOf(paymentId));
-        CustomerOrder customerOrder = new CustomerOrder();
+    public String createOrder() {
         return null;
     }
 }

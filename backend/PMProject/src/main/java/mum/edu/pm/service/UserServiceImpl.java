@@ -1,20 +1,38 @@
 package mum.edu.pm.service;
 
 import mum.edu.pm.entity.User;
+import mum.edu.pm.repository.IUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements IUserService {
-    Map<String, User> map = new HashMap<>();
 
-    public Map<String, User> getAll() {
-        User u1 = new User("a", "b", "c", "d");
-        User u2 = new User("c", "d", "a", "b");
-        map.put("1", u1);
-        map.put("2", u2);
-        return map;
+    @Autowired
+    private IUserRepository userRepository;
+
+    @Override
+    public User addUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return (List<User>) userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> getUser(long userId) {
+        return userRepository.findById(userId);
+    }
+
+    @Override
+    public void removeUser(User user) {
+        userRepository.delete(user);
     }
 }
