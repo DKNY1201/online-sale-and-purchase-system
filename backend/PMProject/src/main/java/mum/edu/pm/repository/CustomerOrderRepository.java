@@ -1,11 +1,11 @@
 package mum.edu.pm.repository;
 
-import mum.edu.pm.entity.User;
+import mum.edu.pm.entity.CustomerOrder;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
 
 @Transactional
-public interface IUserRepository extends CrudRepository<User, Long> {
+public interface CustomerOrderRepository extends CrudRepository<CustomerOrder, Long> {
 
 }

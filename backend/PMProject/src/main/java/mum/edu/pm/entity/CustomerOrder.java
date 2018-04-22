@@ -1,7 +1,12 @@
 package mum.edu.pm.entity;
 
+import mum.edu.pm.enums.OrderStatus;
+
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,6 +36,10 @@ public class CustomerOrder implements Serializable {
 
     private String billingAddress;
 
+    @ElementCollection(targetClass = OrderStatus.class)
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "paymentId")
     private Payment payment;
@@ -38,6 +48,15 @@ public class CustomerOrder implements Serializable {
     private List<CartItem> cartItems;
 
     public CustomerOrder() {
+        cartItems = new ArrayList<>();
+    }
+
+    public CustomerOrder(User customer, String shippingAddress, String billingAddress, OrderStatus orderStatus, Payment payment) {
+        this.customer = customer;
+        this.shippingAddress = shippingAddress;
+        this.billingAddress = billingAddress;
+        this.orderStatus = orderStatus;
+        this.payment = payment;
     }
 
     public Long getId() {
@@ -66,6 +85,14 @@ public class CustomerOrder implements Serializable {
 
     public void setBillingAddress(String billingAddress) {
         this.billingAddress = billingAddress;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public Payment getPayment() {

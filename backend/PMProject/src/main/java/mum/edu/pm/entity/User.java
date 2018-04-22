@@ -1,5 +1,6 @@
 package mum.edu.pm.entity;
 
+import mum.edu.pm.enums.Role;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.CascadeType;
