@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/modules/bootstrap/css/bootstrap.css}"/>
+    <script type="text/javascript"
+            th:src="@{/modules/jquery/jquery-3.3.1.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/modules/bootstrap/js/bootstrap.js}"></script>
+    <title>My Cart</title>
+</head>
+<body>
+<div th:replace="fragments/menu :: menu"></div>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">My Cart</h3></div>
+        <div class="panel-body">
+            <div class="row" th:if="${#lists.size(myCustomerOrder.orderLines) > 0}">
+                <form th:action="@{/cart/update}" method="post">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="tblMyCart">
+                        <tr class="item" th:each="lineItem, stat: *{myCustomerOrder.orderLines}">
+                            <td th:text="${lineItem.product.productName}"></td>
+                            <td th:text="${lineItem.product.productType}"></td>
+                            <td th:text="${lineItem.product.price}"></td>
+                            <td><input type="number" placeholder="1" class="input-mini"
+                                       th:field="*{myCustomerOrder.orderLines[__${stat.index}__].quantity}"/></td>
+                            <td>
+                                <a th:href="@{'/cart/remove/product/' + ${lineItem.product.id}}"
+                                   class="btn btn-default">Remove</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <input type="submit" class="btn btn-default" value="Update" name="update"/>
+                    <a th:href="@{/cart/submit}" class="btn btn-default">Confirm</a>
+                </form>
+            </div>
+        </div>
+        <div class="panel-footer">
+
+
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>
