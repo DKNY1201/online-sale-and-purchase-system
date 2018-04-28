@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" th:href="@{/modules/bootstrap/css/bootstrap.css}" />
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+<script type="text/javascript" th:src="@{/modules/jquery/jquery-3.3.1.js}"></script>
+<script type="text/javascript" th:src="@{/modules/bootstrap/js/bootstrap.js}"></script>
+<title>Product List</title>
+</head>
+<body>
+	<div th:replace="fragments/menu :: menu"></div>
+	<div class="container">
+		<div class="panel panel-default">
+		<div class="panel-heading"> <h3 class="panel-title"> Product List</h3> </div>
+		<div class="panel-body">
+		  <table class="table table-hover">
+			  <thead>
+			    <tr>
+			      <th scope="col">Name</th>
+			      <th scope="col">Type</th>
+			      <th scope="col">Price</th>
+			      <th scope="col">Description</th>
+			      <th></th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr th:each="prod : ${products}">
+			      <td class="col-md-3" scope="row">
+			      	<a th:href="@{/admin/product/create(id=${prod.id})}" th:text="${prod.productName}"></a>
+			      </td>
+			      <td class="col-md-2" th:text="${prod.productType}"></td>
+			      <td class="col-md-1" th:text="${prod.price}"></td>
+			      <td class="col-md-5" th:text="${prod.description}"></td>
+			      <td class="col-md-1">
+			      	<form method="post" th:action="@{'/admin/product/delete/'+${prod.id}}">
+			      		<input type="submit" class="btn btn-danger" value="Delete"/>
+			      	</form>
+			      </td>
+			    </tr>
+			  </tbody>
+			</table>
+		</div>
+		<div class="panel-footer">
+			<form th:action="@{/admin/product/create}" method="get">
+				<button type="submit" class="btn btn-default" aria-label="Left Align">
+				  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create
+				</button>
+			</form>
+		</div>
+	</div>
+		<div th:replace="fragments/footer :: footer"></div>
+	</div>
+</body>
+</html>
