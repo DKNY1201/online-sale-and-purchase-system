@@ -54,7 +54,7 @@ public class MyAccountController {
 		return "myaccount/account";
 	}
 	
-	@PostMapping("/acoount/update")
+	@PostMapping("/account/update")
 	public String updateAccount(Model model, @ModelAttribute("user")  Person person) {
 		User user = userService.findByEmail(person.getEmail());
 		if (person.getPassword() != null && !person.getPassword().isEmpty()) {
