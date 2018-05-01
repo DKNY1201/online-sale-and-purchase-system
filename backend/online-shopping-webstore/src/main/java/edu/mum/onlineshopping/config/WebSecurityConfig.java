@@ -17,20 +17,20 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private DataSource dataSource;
-	
+
 	@Value("${onlineshopping.person-auth-query}")
 	private String personAuthQuery;
 	@Value("${onlineshopping.person-author-query}")
 	private String personAuthorQuery;
-	
+
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/", "/home", "/index", "/modules/**", 
+                .antMatchers("/", "/home", "/index", "/modules/**",
                 				"/css/**", "/images/**", "/product/**", "/user/login",
                 				"/cart/", "/cart/add/product/*", "/me/account/signup",
                 				"/cart/update", "/cart/remove/product/*", "/cart/add/product/*",
@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 								.authoritiesByUsernameQuery(personAuthorQuery)
 								.dataSource(dataSource);
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		PasswordEncoder encoder = new BCryptPasswordEncoder();

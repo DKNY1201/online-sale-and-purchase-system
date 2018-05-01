@@ -1,10 +1,6 @@
 package edu.mum.onlineshopping.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Product {
@@ -13,6 +9,7 @@ public class Product {
 	@GeneratedValue
 	private int id;
 	private String productName;
+	@Column(columnDefinition="TEXT")
 	private String description;
 	private double price;
 	@Enumerated(EnumType.STRING)
