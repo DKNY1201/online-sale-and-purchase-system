@@ -1,5 +1,6 @@
 package edu.mum.onlineshopping.controller;
 
+import edu.mum.onlineshopping.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,10 @@ public class MyAccountController {
 	
 	@Autowired
 	private PasswordEncoder encoder;
-	
+
+	@Autowired
+	private EmailService emailService;
+
 	@GetMapping({"order"})
 	public String order(Model model) {
 		Person person = sessionListener.getPerson();
@@ -88,6 +92,7 @@ public class MyAccountController {
 		}
 		personService.savePerson(person);
 		model.addAttribute("infoMsg", "Your new account has been created successfully. Click here to login");
+		emailService.sendUserRegisterMessageUsingTemplate(person);
 		return view;
 	}
 

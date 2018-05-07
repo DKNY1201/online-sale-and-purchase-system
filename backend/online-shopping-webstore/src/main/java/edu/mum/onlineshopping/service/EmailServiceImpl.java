@@ -1,6 +1,7 @@
 package edu.mum.onlineshopping.service;
 
 import edu.mum.onlineshopping.domain.Order;
+import edu.mum.onlineshopping.domain.Person;
 import edu.mum.onlineshopping.domain.TinyEmailObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -24,7 +25,7 @@ public class EmailServiceImpl implements EmailService {
     public JavaMailSender emailSender;
 
     @Autowired
-    private OrderEmailTemplateService emailTBService;
+    private EmailTemplateService emailTBService;
 
     public void sendSimpleMessage(TinyEmailObject emailObject) {
         try {
@@ -45,9 +46,25 @@ public class EmailServiceImpl implements EmailService {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             String orderedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             messageHelper.setTo(order.getPerson().getEmail());
-            messageHelper.setSubject("Order information for " + order.getPerson().getFirstName() + " " + order.getPerson().getLastName() +
-                                    " on " + orderedDate);
+            messageHelper.setSubject("Order information for " + order.getPerson().getFullName() + " on " + orderedDate);
             String content = emailTBService.build(order);
+            messageHelper.setText(content, true);
+        };
+
+        try {
+            emailSender.send(msgPrep);
+        } catch (MailException e) {
+            System.out.println("Send email failed " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void sendUserRegisterMessageUsingTemplate(Person person) {
+        MimeMessagePreparator msgPrep = mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setTo(person.getEmail());
+            messageHelper.setSubject("Online Shopphing Webstore Registration System");
+            String content = emailTBService.build(person);
             messageHelper.setText(content, true);
         };
 

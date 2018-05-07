@@ -102,5 +102,8 @@ public class Person {
 	public void setRole(Integer role) {
 		this.role = role;
 	}
-	
+
+	public String getFullName() {
+		return firstName + " " + lastName;
+	}
 }
