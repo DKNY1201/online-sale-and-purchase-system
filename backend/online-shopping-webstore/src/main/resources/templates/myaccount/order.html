@@ -35,6 +35,13 @@
 					      <td th:text="${lineItem.product.price}"></td>
 					      <td th:text="${lineItem.quantity}"></td>
 					    </tr>
+						<tr>
+							<td>
+								<p>Ship to: <span th:text="${order.shippingAddress}"></span></p>
+								<p>Bill to: <span th:text="${order.billingAddress}"></span></p>
+							</td>
+							<td colspan="3"></td>
+						</tr>
 					  </tbody>
 					</table>
 			    </a>

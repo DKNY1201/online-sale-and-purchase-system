@@ -49,10 +49,28 @@ public class OrderController {
 	}
 
 	@RequestMapping(value="/checkout", method=RequestMethod.GET)
-	public String checkout(ModelMap map, @ModelAttribute("myOrder") Order order) {
+	public String checkout(ModelMap map, @ModelAttribute("myOrder") Order order, Model model) {
 		Order myOrder = this.getCurrentOrder(map);
 		addOrderToSession(map, myOrder);
+
+		double totalPrice = 0;
+
+		for (int i = 0; i < myOrder.getOrderLines().size(); i++) {
+			totalPrice += myOrder.getOrderLines().get(i).getProduct().getPrice() * myOrder.getOrderLines().get(i).getQuantity();
+		}
+
+		model.addAttribute("totalPrice", totalPrice);
+
 		return "cart/checkout";
+	}
+
+	@RequestMapping(value="/checkout", method=RequestMethod.POST)
+	public String update_checkout(ModelMap map, @ModelAttribute("myOrder") Order order) {
+		Order myOrder = getCurrentOrder(map);
+		myOrder.setShippingAddress(order.getShippingAddress());
+		myOrder.setBillingAddress(order.getBillingAddress());
+
+		return "redirect:/cart/submit";
 	}
 	
 	/***
@@ -93,15 +111,6 @@ public class OrderController {
 		return "redirect:/cart/";
 	}
 
-	@RequestMapping(value="/update_checkout", method=RequestMethod.POST)
-	public String update_checkout(ModelMap map, @ModelAttribute("myOrder") Order order) {
-		Order myOrder = getCurrentOrder(map);
-		myOrder.setShippingAddress(order.getShippingAddress());
-		myOrder.setBillingAddress(order.getBillingAddress());
-
-		return "redirect:/cart/checkout";
-	}
-
 	public Order getCurrentOrder(ModelMap map) {
 		Order myOrder = (Order)map.get("myOrder");
 		if (myOrder == null) {
@@ -115,14 +124,6 @@ public class OrderController {
 		map.addAttribute("myOrder", order);
 	}
 	
-//	@RequestMapping(value="/submit", method=RequestMethod.GET)
-//	public String getSubmit(ModelMap map, @ModelAttribute Order order) {
-//		Order myOrder = this.getCurrentOrder(map);
-//		addOrderToSession(map, myOrder);
-//		return "/cart/index";
-//	}
-//
-
 	@RequestMapping(value="/submit", method=RequestMethod.GET)
 	public String submit(ModelMap map, @ModelAttribute("myOrder") Order order) {
 		Order myOrder = getCurrentOrder(map);
@@ -133,9 +134,17 @@ public class OrderController {
 		myOrder.setOrderDate(new Date());
 		myOrder.setPerson(session.getPerson());
 		orderService.save(myOrder);
+
+		this.pay();
+
 		// Clear the order session
-		map.addAttribute("myOrder", new Order()); 
+		map.addAttribute("myOrder", new Order());
+
 		return "redirect:/me/order";
+	}
+
+	public void pay() {
+
 	}
 	
 	
