@@ -116,8 +116,8 @@ public class ReportServiceImpl implements ReportService {
             if (null != rFile) {
                 String subject = "Sale report on " + reportedDateTime;
                 String message = "";
-                if (report.getDateTo() == null ||
-                        report.getDateFrom() == null) {
+                if (report.getDateTo().isEmpty() ||
+                        report.getDateFrom().isEmpty()) {
                     message = "Sale report from beginning";
                 } else {
                     message = "Sale report from " + report.getDateFrom() + " to " + report.getDateTo();
