@@ -28,14 +28,9 @@ public class ReportController {
 
     @RequestMapping(value="/", method= RequestMethod.GET)
     public String loadOrders(Model model, @ModelAttribute("report") Report report) {
-        if (null == report.getDateFrom() ||
-                null == report.getDateTo())
-            report.setOrders(orderService.findAll());
-        else
-            report.setOrders(orderService.findByDate(Date.valueOf(report.getDateFrom()), Date.valueOf(report.getDateTo())));
         Person person = session.getPerson();
         if (person != null) {
-            if (report.getEmail() == null) {
+            if (person.getEmail() != null && !person.getEmail().isEmpty()) {
                 report.setEmail(person.getEmail());
             }
         }
@@ -45,8 +40,8 @@ public class ReportController {
 
     @RequestMapping(params = "search", value="/", method= RequestMethod.POST)
     public String search(Model model, @ModelAttribute("report") Report report) {
-        if (null == report.getDateFrom() ||
-                null == report.getDateTo())
+        if (report.getDateFrom().isEmpty() ||
+                report.getDateTo().isEmpty())
             report.setOrders(orderService.findAll());
         else
             report.setOrders(orderService.findByDate(Date.valueOf(report.getDateFrom()), Date.valueOf(report.getDateTo())));
