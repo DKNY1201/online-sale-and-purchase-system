@@ -28,10 +28,6 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private OrderRepository orderRepository;
     private static List<String> reportColums = new ArrayList<>();
-    private final String HOST = "smtp.gmail.com";
-    private final String PORT = "587";
-    private final String FROM = "hadesvu";
-    private final String PASSWORD = "wearestrong";
 
     static {
         reportColums.add("ORDER_ID");
@@ -108,23 +104,12 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void sendReport(Report report) {
+    public void generateReport(Report report) {
         try {
-            String reportedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
             String reportExcelFileName = "SaleReport" + System.currentTimeMillis() + ".xlsx";
             File rFile = generateSaleReport(reportExcelFileName, report.getOrders());
             if (null != rFile) {
-                String subject = "Sale report on " + reportedDateTime;
-                String message = "";
-                if (report.getDateTo().isEmpty() ||
-                        report.getDateFrom().isEmpty()) {
-                    message = "Sale report from beginning";
-                } else {
-                    message = "Sale report from " + report.getDateFrom() + " to " + report.getDateTo();
-                }
-                EmailUtil.sendEmailWithAttachments(HOST, PORT, FROM, PASSWORD, report.getEmail(),
-                        subject, message, rFile);
-                System.out.println("Email sent.");
+                report.setReportExcelFile(rFile.getAbsolutePath());
             } else {
                 System.out.println("Can't generate report excel file");
             }

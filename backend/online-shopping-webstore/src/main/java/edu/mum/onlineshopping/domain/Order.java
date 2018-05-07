@@ -43,6 +43,13 @@ public class Order {
 	@Column (name = "customer_name")
 	private String customerName;
 
+	public final float getTAX() {
+		return TAX;
+	}
+
+	@Transient
+	private final float TAX = 7.0f;
+
 	public int getId() {
 		return id;
 	}

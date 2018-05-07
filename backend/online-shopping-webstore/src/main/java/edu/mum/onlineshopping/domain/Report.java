@@ -8,6 +8,15 @@ public class Report {
     private String dateTo;
 
     private String email;
+    private String reportExcelFile;
+
+    public String getReportExcelFile() {
+        return reportExcelFile;
+    }
+
+    public void setReportExcelFile(String reportExcelFile) {
+        this.reportExcelFile = reportExcelFile;
+    }
 
     public List<Order> getOrders() {
         return orders;

@@ -3,6 +3,7 @@ package edu.mum.onlineshopping.controller;
 import java.util.Date;
 
 import edu.mum.onlineshopping.domain.Person;
+import edu.mum.onlineshopping.service.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +26,9 @@ import edu.mum.onlineshopping.service.ProductService;
 @RequestMapping("/cart")
 @SessionAttributes({"myOrder"})
 public class OrderController {
-	
+	@Autowired
+	public EmailServiceImpl emailService;
+
 	@Autowired
 	private OrderService orderService;
 	
@@ -115,8 +118,10 @@ public class OrderController {
 		myOrder.setOrderDate(new Date());
 		myOrder.setPerson(session.getPerson());
 		orderService.save(myOrder);
+
 		// Clear the order session
-		map.addAttribute("myOrder", new Order()); 
+		map.addAttribute("myOrder", new Order());
+		emailService.sendOrderMessageUsingTemplate(myOrder);
 		return "redirect:/me/order";
 	}
 	
