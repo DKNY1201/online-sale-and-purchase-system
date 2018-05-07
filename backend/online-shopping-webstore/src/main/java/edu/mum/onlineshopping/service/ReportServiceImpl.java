@@ -2,6 +2,7 @@ package edu.mum.onlineshopping.service;
 
 import edu.mum.onlineshopping.domain.Order;
 import edu.mum.onlineshopping.domain.Orderline;
+import edu.mum.onlineshopping.domain.Report;
 import edu.mum.onlineshopping.repository.OrderRepository;
 import edu.mum.onlineshopping.util.EmailUtil;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -27,6 +28,11 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private OrderRepository orderRepository;
     private static List<String> reportColums = new ArrayList<>();
+    private final String HOST = "smtp.gmail.com";
+    private final String PORT = "587";
+    private final String FROM = "hadesvu";
+    private final String PASSWORD = "wearestrong";
+
     static {
         reportColums.add("ORDER_ID");
         reportColums.add("ORDER_DATE");
@@ -102,22 +108,21 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void sendReport() {
+    public void sendReport(Report report) {
         try {
-            List<Order> orders = orderRepository.findAll();
             String reportedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
             String reportExcelFileName = "SaleReport" + System.currentTimeMillis() + ".xlsx";
-            File rFile = generateSaleReport(reportExcelFileName, orders);
+            File rFile = generateSaleReport(reportExcelFileName, report.getOrders());
             if (null != rFile) {
-                String host = "smtp.gmail.com";
-                String port = "587";
-                String mailFrom = "hadesvu";
-                String password = "wearestrong";
-
-                String mailTo = "ducvo1983@gmail.com";
                 String subject = "Sale report on " + reportedDateTime;
-                String message = "Sale report on " + reportedDateTime;
-                EmailUtil.sendEmailWithAttachments(host, port, mailFrom, password, mailTo,
+                String message = "";
+                if (report.getDateTo() == null ||
+                        report.getDateFrom() == null) {
+                    message = "Sale report from beginning";
+                } else {
+                    message = "Sale report from " + report.getDateFrom() + " to " + report.getDateTo();
+                }
+                EmailUtil.sendEmailWithAttachments(HOST, PORT, FROM, PASSWORD, report.getEmail(),
                         subject, message, rFile);
                 System.out.println("Email sent.");
             } else {
