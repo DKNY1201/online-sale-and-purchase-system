@@ -28,6 +28,18 @@
 
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+					<li sec:authorize="!isAuthenticated()" class="dropdown">
+						<a href="#" class="dropdown-toggle"
+						   data-toggle="dropdown" role="button" aria-haspopup="true"
+						   aria-expanded="false">
+							<span th:text="Register"></span>
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="/me/account/signup_vendor">Vendor</a></li>
+							<li><a href="/me/account/signup">User</a></li>
+						</ul>
+					</li>
 					<li sec:authorize="isAuthenticated()" class="dropdown">
 						<a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -37,20 +49,20 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li><a href="/me/account/update">My Account</a></li>
-							<li><a href="/me/order">My Order</a></li>
+							<li sec:authorize="!hasAnyRole('ROLE_ADMIN', 'ROLE_VENDOR')"><a href="/me/order">My Order</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a href="/user/logout">Logout</a></li>
 						</ul>
 					</li>
-					<li><a href="/cart/">My Cart</a></li>
-					<li sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown"><a href="#" class="dropdown-toggle"
+					<li sec:authorize="!hasAnyRole('ROLE_ADMIN', 'ROLE_VENDOR')"><a href="/cart/">My Cart</a></li>
+					<li sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_VENDOR')" class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">Administration<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="/admin/product/">Product Management</a></li>
-							<li><a href="/admin/order/">Order Management</a></li>
-							<li><a href="/admin/user/">User Management</a></li>
-							<li><a href="/admin/report/">Report</a></li>
+							<li sec:authorize="hasRole('ROLE_VENDOR')"><a href="/admin/product/">Product Management</a></li>
+							<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin/order/">Order Management</a></li>
+							<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin/user/">User Management</a></li>
+							<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin/report/">Report</a></li>
 						</ul>
 					</li>
 					<li sec:authorize="!isAuthenticated()"><a href="/user/login">Login</a></li>
