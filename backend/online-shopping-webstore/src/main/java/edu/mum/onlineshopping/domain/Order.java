@@ -21,6 +21,9 @@ public class Order {
 	@OneToOne
 	private Person person;
 
+	@Column(name = "shipping_address")
+	private String shippingAddress;
+
 	public String getShippingAddress() {
 		return shippingAddress;
 	}
@@ -29,19 +32,16 @@ public class Order {
 		this.shippingAddress = shippingAddress;
 	}
 
-	@Column(name = "shipping_address")
-	private String shippingAddress;
+	@Column(name = "billing_address")
+	private String billingAddress;
 
-	public String getCustomerName() {
-		return customerName;
+	public String getBillingAddress() {
+		return billingAddress;
 	}
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+	public void setBillingAddress(String billingAddress) {
+		this.billingAddress = billingAddress;
 	}
-
-	@Column (name = "customer_name")
-	private String customerName;
 
 	public int getId() {
 		return id;

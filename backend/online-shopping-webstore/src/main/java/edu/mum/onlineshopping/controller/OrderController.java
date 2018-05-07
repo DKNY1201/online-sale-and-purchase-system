@@ -38,14 +38,21 @@ public class OrderController {
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String myCart(ModelMap map, Model model, @ModelAttribute Order order) {
 		Order myOrder = this.getCurrentOrder(map);
-		Person person = session.getPerson();
-		if (person != null) {
-			myOrder.setCustomerName(person.getFirstName() + " " + person.getLastName());
-			myOrder.setShippingAddress(person.getAddress().getCity() + ", " + person.getAddress().getState()
-					+ ", " + person.getAddress().getStreet());
-		}
+//		Person person = session.getPerson();
+////		if (person != null) {
+////			myOrder.setCustomerName(person.getFirstName() + " " + person.getLastName());
+////			myOrder.setShippingAddress(person.getAddress().getCity() + ", " + person.getAddress().getState()
+////					+ ", " + person.getAddress().getStreet());
+////		}
 		addOrderToSession(map, myOrder);
 		return "cart/index";
+	}
+
+	@RequestMapping(value="/checkout", method=RequestMethod.GET)
+	public String checkout(ModelMap map, @ModelAttribute("myOrder") Order order) {
+		Order myOrder = this.getCurrentOrder(map);
+		addOrderToSession(map, myOrder);
+		return "cart/checkout";
 	}
 	
 	/***
@@ -82,9 +89,19 @@ public class OrderController {
 		for (int i = 0; i < myOrder.getOrderLines().size(); i++) {
 			myOrder.getOrderLines().get(i).setQuantity(order.getOrderLines().get(i).getQuantity());
 		}
+
 		return "redirect:/cart/";
 	}
-	
+
+	@RequestMapping(value="/update_checkout", method=RequestMethod.POST)
+	public String update_checkout(ModelMap map, @ModelAttribute("myOrder") Order order) {
+		Order myOrder = getCurrentOrder(map);
+		myOrder.setShippingAddress(order.getShippingAddress());
+		myOrder.setBillingAddress(order.getBillingAddress());
+
+		return "redirect:/cart/checkout";
+	}
+
 	public Order getCurrentOrder(ModelMap map) {
 		Order myOrder = (Order)map.get("myOrder");
 		if (myOrder == null) {
@@ -104,7 +121,8 @@ public class OrderController {
 //		addOrderToSession(map, myOrder);
 //		return "/cart/index";
 //	}
-//	
+//
+
 	@RequestMapping(value="/submit", method=RequestMethod.GET)
 	public String submit(ModelMap map, @ModelAttribute("myOrder") Order order) {
 		Order myOrder = getCurrentOrder(map);
