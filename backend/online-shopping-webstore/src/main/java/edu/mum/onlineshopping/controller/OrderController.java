@@ -2,6 +2,7 @@ package edu.mum.onlineshopping.controller;
 
 import java.util.Date;
 
+import edu.mum.onlineshopping.domain.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +38,12 @@ public class OrderController {
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String myCart(ModelMap map, Model model, @ModelAttribute Order order) {
 		Order myOrder = this.getCurrentOrder(map);
+		Person person = session.getPerson();
+		if (person != null) {
+			myOrder.setCustomerName(person.getFirstName() + " " + person.getLastName());
+			myOrder.setShippingAddress(person.getAddress().getCity() + ", " + person.getAddress().getState()
+					+ ", " + person.getAddress().getCountry());
+		}
 		addOrderToSession(map, myOrder);
 		return "cart/index";
 	}
