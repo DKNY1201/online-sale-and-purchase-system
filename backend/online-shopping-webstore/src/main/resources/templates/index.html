@@ -21,7 +21,7 @@
 				<p th:text="${prod.description}"></p>
 				<p><img class="img-responsive" th:src="${prod.productImage}" alt="" /></p>
 
-				<form sec:authorize="!hasRole('ROLE_ADMIN')" method="post" th:action="@{'/cart/add/product/' + ${prod.id}}">
+				<form sec:authorize="!hasAnyRole('ROLE_ADMIN', 'ROLE_VENDOR')" method="post" th:action="@{'/cart/add/product/' + ${prod.id}}">
 					<input type="submit" class="btn btn-default" value="Add"/>
 				</form>
 			</div>
