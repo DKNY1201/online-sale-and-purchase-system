@@ -42,7 +42,7 @@ public class OrderController {
 		if (person != null) {
 			myOrder.setCustomerName(person.getFirstName() + " " + person.getLastName());
 			myOrder.setShippingAddress(person.getAddress().getCity() + ", " + person.getAddress().getState()
-					+ ", " + person.getAddress().getCountry());
+					+ ", " + person.getAddress().getStreet());
 		}
 		addOrderToSession(map, myOrder);
 		return "cart/index";
