@@ -4,7 +4,6 @@ import edu.mum.onlineshopping.domain.Order;
 import edu.mum.onlineshopping.domain.Orderline;
 import edu.mum.onlineshopping.domain.Report;
 import edu.mum.onlineshopping.repository.OrderRepository;
-import edu.mum.onlineshopping.util.EmailUtil;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
