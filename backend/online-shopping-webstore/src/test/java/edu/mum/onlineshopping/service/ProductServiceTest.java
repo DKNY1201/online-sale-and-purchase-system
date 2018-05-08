@@ -21,8 +21,8 @@ public class ProductServiceTest {
 
 	@Autowired
 	private ProductService productService;
-	private Product[] testProduct;
-	final static int TEST_NumberOfProducts = 10;
+	private Product[] testProducts;
+	final static int NUMBER_OF_PRODUCTS = 10;
 
 	@Before
 	public void setUp() throws Exception {
@@ -30,31 +30,31 @@ public class ProductServiceTest {
 		deleteTestObjects();
 
 		// Creating objects to use during the test
-		testProduct = new Product[TEST_NumberOfProducts];
+		testProducts = new Product[NUMBER_OF_PRODUCTS];
 
-		for (int i = 0; i < TEST_NumberOfProducts; i++) {
+		for (int i = 0; i < NUMBER_OF_PRODUCTS; i++) {
 			Product product = new Product();
 			product.setProductName("TEST-productName" + i);
 			product.setDescription("TEST-Item Description" + i);
 			product.setPrice(i + 100.0);
 			ProductType productType = null;
 			switch (i % 3) {
-			case 0:
-				productType = ProductType.FASHION;
-				break;
-			case 1:
-				productType = ProductType.ELECTRONIC;
-				break;
-			default:
-				productType = ProductType.FURNITURE;
+				case 0:
+					productType = ProductType.FASHION;
+					break;
+				case 1:
+					productType = ProductType.ELECTRONIC;
+					break;
+				default:
+					productType = ProductType.FURNITURE;
 			}
 			product.setProductType(productType);
-			testProduct[i] = product;
+			testProducts[i] = product;
 		}
 
 		// Store test objects in database -- Skipping 0 for Create Test
-		for (int i = 1; i < TEST_NumberOfProducts; i++) {
-			testProduct[i] = productService.save(testProduct[i]);
+		for (int i = 1; i < NUMBER_OF_PRODUCTS; i++) {
+			testProducts[i] = productService.save(testProducts[i]);
 		}
 	}
 
@@ -65,17 +65,17 @@ public class ProductServiceTest {
 
 	@Test
 	public void testSave() {
-		Product stored = productService.save(testProduct[0]);
+		Product stored = productService.save(testProducts[0]);
 		Product saved = productService.getProduct(stored.getId());
-		if (!compareProduct(testProduct[0], saved)) {
-			fail("Not storing or retrieving Person");
+		if (!compareProduct(testProducts[0], saved)) {
+			fail("Not storing or retrieving Product");
 		}
 	}
 
 	@Test
 	public void testGetProduct() {
-		Product saved = productService.getProduct((testProduct[1].getId()));
-		if (!compareProduct(testProduct[1], saved)) {
+		Product saved = productService.getProduct((testProducts[1].getId()));
+		if (!compareProduct(testProducts[1], saved)) {
 			fail("Not storing or retrieving Product");
 		}
 	}
@@ -83,24 +83,24 @@ public class ProductServiceTest {
 	@Test
 	public void testGetAllProduct() {
 		List<Product> saved = productService.getAllProduct();
-		if (saved.size() < TEST_NumberOfProducts - 1) {
+		if (saved.size() < NUMBER_OF_PRODUCTS - 1) {
 			fail("Not storing or retrieving Products");
 		}
 	}
 
 	@Test
 	public void testFindByTextSearch() {
-		List<Product> saved = productService.findByTextSearch(testProduct[2].getDescription());
-		if (!compareProduct(saved, testProduct[2])) {
+		List<Product> saved = productService.findByTextSearch(testProducts[2].getDescription());
+		if (!compareProduct(saved, testProducts[2])) {
 			fail("Search couldn't retrieve Product");
 		}
 	}
 
 	@Test
 	public void testFindByPrice() {
-		double price = testProduct[3].getPrice();
+		double price = testProducts[3].getPrice();
 		List<Product> saved = productService.findByPrice(price, price);
-		if (!compareProduct(saved, testProduct[3])) {
+		if (!compareProduct(saved, testProducts[3])) {
 			fail("Search couldn't retrieve Product");
 		}
 	}
@@ -108,17 +108,17 @@ public class ProductServiceTest {
 	@Test
 	public void testFindByProductType() {
 		for (int i = 4; i < 7; i++) {
-			List<Product> saved = productService.findByProductType(testProduct[i].getProductType());
-			if (!compareProduct(saved, testProduct[i])) {
-				fail("Search couldn't retrieve Product by Type" + testProduct[i].getProductType());
+			List<Product> saved = productService.findByProductType(testProducts[i].getProductType());
+			if (!compareProduct(saved, testProducts[i])) {
+				fail("Search couldn't retrieve Product by Type" + testProducts[i].getProductType());
 			}
 		}
 	}
 
 	private void deleteTestObjects() {
-		for (int i = 0; i < TEST_NumberOfProducts; i++) {
+		for (int i = 0; i < NUMBER_OF_PRODUCTS; i++) {
 			try {
-				List<Product> products = productService.findByTextSearch(testProduct[i].getProductName());
+				List<Product> products = productService.findByTextSearch(testProducts[i].getProductName());
 				for (Product product : products) {
 					productService.delete(product);
 				}
