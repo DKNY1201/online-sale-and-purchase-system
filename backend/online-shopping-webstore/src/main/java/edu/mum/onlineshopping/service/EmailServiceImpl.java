@@ -27,7 +27,8 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private EmailTemplateService emailTBService;
 
-    public void sendSimpleMessage(TinyEmailObject emailObject) {
+    public boolean sendSimpleMessage(TinyEmailObject emailObject) {
+        if (emailObject == null) return false;
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(emailObject.getTo());
@@ -35,13 +36,16 @@ public class EmailServiceImpl implements EmailService {
             message.setText(emailObject.getText());
 
             emailSender.send(message);
+            return true;
         } catch (MailException exception) {
             exception.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void sendOrderMessageUsingTemplate(Order order) {
+    public boolean sendOrderMessageUsingTemplate(Order order) {
+        if(order == null) return false;
         MimeMessagePreparator msgPrep = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             String orderedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -53,13 +57,16 @@ public class EmailServiceImpl implements EmailService {
 
         try {
             emailSender.send(msgPrep);
+            return true;
         } catch (MailException e) {
             System.out.println("Send email failed " + e.getMessage());
         }
+        return false;
     }
 
     @Override
-    public void sendUserRegisterMessageUsingTemplate(Person person) {
+    public boolean sendUserRegisterMessageUsingTemplate(Person person) {
+        if(person == null) return false;
         MimeMessagePreparator msgPrep = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(person.getEmail());
@@ -70,15 +77,18 @@ public class EmailServiceImpl implements EmailService {
 
         try {
             emailSender.send(msgPrep);
+            return true;
         } catch (MailException e) {
             System.out.println("Send email failed " + e.getMessage());
         }
+        return false;
     }
 
     @Override
-    public void sendMessageWithAttachment(TinyEmailObject emailObject,
+    public boolean sendMessageWithAttachment(TinyEmailObject emailObject,
                                           String attachmentFileName,
                                           String pathToAttachment) {
+        if(emailObject == null || attachmentFileName == null || pathToAttachment == null) return false;
         try {
             MimeMessage message = emailSender.createMimeMessage();
             // pass 'true' to the constructor to create a multipart message
@@ -92,8 +102,10 @@ public class EmailServiceImpl implements EmailService {
             helper.addAttachment(attachmentFileName, file);
 
             emailSender.send(message);
+            return true;
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+        return false;
     }
 }

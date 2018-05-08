@@ -3,7 +3,7 @@ package edu.mum.onlineshopping.controller;
 import java.util.Date;
 
 import edu.mum.onlineshopping.domain.Person;
-import edu.mum.onlineshopping.service.EmailServiceImpl;
+import edu.mum.onlineshopping.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +31,7 @@ import edu.mum.onlineshopping.service.ProductService;
 @SessionAttributes({"myOrder"})
 public class OrderController {
 	@Autowired
-	public EmailServiceImpl emailService;
+	public EmailService emailService;
 
 	@Autowired
 	private OrderService orderService;

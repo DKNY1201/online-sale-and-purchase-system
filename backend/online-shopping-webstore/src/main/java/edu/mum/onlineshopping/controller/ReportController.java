@@ -4,7 +4,7 @@ import edu.mum.onlineshopping.config.SessionListener;
 import edu.mum.onlineshopping.domain.Person;
 import edu.mum.onlineshopping.domain.Report;
 import edu.mum.onlineshopping.domain.TinyEmailObject;
-import edu.mum.onlineshopping.service.EmailServiceImpl;
+import edu.mum.onlineshopping.service.EmailService;
 import edu.mum.onlineshopping.service.OrderService;
 import edu.mum.onlineshopping.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.Map;
 @RequestMapping("admin/report")
 public class ReportController {
     @Autowired
-    public EmailServiceImpl emailService;
+    public EmailService emailService;
 
     @Autowired
     private ReportService reportService;
