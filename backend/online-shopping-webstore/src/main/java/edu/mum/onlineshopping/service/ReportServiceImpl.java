@@ -17,6 +17,7 @@ import javax.mail.internet.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -50,7 +51,7 @@ public class ReportServiceImpl implements ReportService {
 
         int ithRow = 2;
         double sum = 0.0;
-
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         for (Order o : orders) {
             for (Orderline ol : o.getOrderLines()) {
                 row = spreadsheet.createRow(ithRow++);
@@ -58,7 +59,7 @@ public class ReportServiceImpl implements ReportService {
                 cell = row.createCell(1);
                 cell.setCellValue(o.getId());
                 cell = row.createCell(2);
-                cell.setCellValue(o.getOrderDate());
+                cell.setCellValue(fmt.format(o.getOrderDate()));
                 cell = row.createCell(3);
                 cell.setCellValue(ol.getProduct().getProductName());
                 cell = row.createCell(4);
