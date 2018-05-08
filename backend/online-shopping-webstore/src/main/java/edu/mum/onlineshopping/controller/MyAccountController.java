@@ -104,21 +104,4 @@ public class MyAccountController {
 		person.setEnable(true);
 		return "myaccount/signup";
 	}
-
-//	@PostMapping("/account/signup")
-//	public String createNewVendorAccount(Model model, @ModelAttribute("user")  Person person) {
-//		String view = "myaccount/signup";
-//		User user = userService.findByEmail(person.getEmail());
-//		if (user != null) {
-//			model.addAttribute("errorMsg", "This email already exists. Please use another email.");
-//			return view;
-//		}
-//		if (person.getPassword() != null && !person.getPassword().isEmpty()) {
-//			person.setPassword(encoder.encode(person.getPassword()));
-//		}
-//		personService.savePerson(person);
-//		model.addAttribute("infoMsg", "Your new Vendor account has been created successfully. Click here to login");
-//		return view;
-//	}
-	
 }
