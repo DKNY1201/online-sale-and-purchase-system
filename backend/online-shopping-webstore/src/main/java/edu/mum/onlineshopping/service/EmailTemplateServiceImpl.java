@@ -20,6 +20,7 @@ public class EmailTemplateServiceImpl implements EmailTemplateService {
 
     @Override
     public String build(Order order) {
+        if (order == null) return null;
         Context context = new Context();
         double total_before_tax = order.getTotalAmount();
         double tax_amount = total_before_tax * order.getTAX() / 100;
@@ -34,6 +35,7 @@ public class EmailTemplateServiceImpl implements EmailTemplateService {
 
     @Override
     public String build(Person person) {
+        if (person == null) return null;
         Context context = new Context();
         context.setVariable("user_full_name", person.getFullName());
         return templateEngine.process("register_congrats", context);

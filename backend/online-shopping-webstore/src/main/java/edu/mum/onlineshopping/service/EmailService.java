@@ -7,10 +7,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
 public interface EmailService {
-    void sendSimpleMessage(TinyEmailObject emailObject);
-    void sendOrderMessageUsingTemplate(Order order);
-    void sendUserRegisterMessageUsingTemplate(Person person);
-    void sendMessageWithAttachment(TinyEmailObject emailObject,
+    boolean sendSimpleMessage(TinyEmailObject emailObject);
+    boolean sendOrderMessageUsingTemplate(Order order);
+    boolean sendUserRegisterMessageUsingTemplate(Person person);
+    boolean sendMessageWithAttachment(TinyEmailObject emailObject,
                                    String attachmentFileName,
                                    String pathToAttachment);
 }

@@ -4,7 +4,6 @@ import edu.mum.onlineshopping.domain.Order;
 import edu.mum.onlineshopping.domain.Orderline;
 import edu.mum.onlineshopping.domain.Report;
 import edu.mum.onlineshopping.repository.OrderRepository;
-import edu.mum.onlineshopping.util.EmailUtil;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -38,6 +37,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private File generateSaleReport(String reportExcelFileName, List<Order> orders) {
+        if (orders == null) return null;
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet spreadsheet = workbook.createSheet(reportExcelFileName);
 
@@ -105,6 +105,9 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public void generateReport(Report report) {
+        if (null == report) {
+            return;
+        }
         try {
             String reportExcelFileName = "SaleReport" + System.currentTimeMillis() + ".xlsx";
             File rFile = generateSaleReport(reportExcelFileName, report.getOrders());
@@ -112,6 +115,7 @@ public class ReportServiceImpl implements ReportService {
                 report.setReportExcelFile(rFile.getAbsolutePath());
             } else {
                 System.out.println("Can't generate report excel file");
+                report.setReportExcelFile(null);
             }
         } catch(Exception e) {
             System.out.println("Can't generate or send email. Error: " + e.getMessage());
