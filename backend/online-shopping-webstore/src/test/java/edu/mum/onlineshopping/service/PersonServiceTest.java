@@ -36,6 +36,7 @@ public class PersonServiceTest {
 
 		for (int i = 0; i < TEST_NumberOfPersons; i++) {
 			Person person = new Person();
+			person.setRole(i + 1);
 			person.setEmail(i + "test@email.com");
 			person.setEnable((i % 2 == 0));
 			person.setFirstName("firstName Test" + i);
