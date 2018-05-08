@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" th:href="@{/modules/bootstrap/css/bootstrap.css}" />
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<script type="text/javascript"
+	th:src="@{/modules/jquery/jquery-3.3.1.js}"></script>
+<script type="text/javascript"
+	th:src="@{/modules/bootstrap/js/bootstrap.js}"></script>
+<title>My Cart</title>
+</head>
+<body>
+	<div th:replace="fragments/menu :: menu"></div>
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading"> <h3 class="panel-title">My Cart</h3> </div>
+			<div class="panel-body">
+				<div class="row" th:if="${#lists.size(myOrder.orderLines) > 0}">
+					<form th:action="@{/cart/update}" method="post">
+						<!--<div class="form-group row">-->
+							<!--<label for="name" class="col-sm-2 col-form-label">Name</label>-->
+							<!--<div class="col-sm-4">-->
+								<!--<input type="text" class="form-control" id="name" placeholder="Name" th:field="*{myOrder.customerName}" />-->
+							<!--</div>-->
+						<!--</div>-->
+						<!--<div class="form-group row">-->
+						  <!--<label for="phone" class="col-sm-2 col-form-label">Shipping Address</label>-->
+						  <!--<div class="col-sm-8">-->
+							<!--<input type="text" class="form-control" id="shippingAddress" placeholder="Shipping Address" th:field="*{myOrder.shippingAddress}" />-->
+						  <!--</div>-->
+						<!--</div>-->
+
+						<table class="table table-bordered table-striped">
+						  <thead>
+							  <tr>
+								<th>Name</th>
+								<th>Type</th>
+								<th>Price</th>
+								<th>Quantity</th>
+								<th></th>
+							  </tr>
+							</thead>
+							<tbody id="tblMyCart">
+						  		<tr class="item" th:each="lineItem, stat: *{myOrder.orderLines}">
+									<td th:text="${lineItem.product.productName}"></td>
+									<td th:text="${lineItem.product.productType}"></td>
+									<td th:text="${lineItem.product.price}"></td>
+									<td><input type="number" placeholder="1" class="input-mini" th:field="*{myOrder.orderLines[__${stat.index}__].quantity}" /></td>
+									<td>
+										<a th:href="@{'/cart/remove/product/' + ${lineItem.product.id}}" class="btn btn-warning">Remove</a>
+									</td>
+						  		</tr>		
+							  	<tr>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+							  	</tr>		  
+							</tbody>
+						  </table>
+
+					  	<input type="submit" class="btn btn-info" value="Update" name="update" />
+					  	<a th:href="@{/cart/checkout}" class="btn btn-success">Continue Checkout</a>
+					</form>
+				</div>
+			</div>
+			<div class="panel-footer">
+				
+					
+			</div>
+		</div>
+		<div th:replace="fragments/footer :: footer"></div>
+	</div>
+</body>
+</html>

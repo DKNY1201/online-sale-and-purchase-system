@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" th:href="@{/modules/bootstrap/css/bootstrap.css}" />
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+<script type="text/javascript" th:src="@{/modules/jquery/jquery-3.3.1.js}"></script>
+<script type="text/javascript" th:src="@{/modules/bootstrap/js/bootstrap.js}"></script>
+<title>My Order</title>
+</head>
+<body>
+	<div th:replace="fragments/menu :: menu"></div>
+	<div class="container">
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading"> <h3 class="panel-title">Search</h3> </div>
+				<div class="panel-body">
+					<form th:object="${report}" th:action="@{/admin/report/}" method="post">
+						<div class="form-group row">
+							<label for="startDate" class="col-sm-2 col-form-label">Start Date</label>
+							<div class="col-sm-4">
+								<input type="date" class="form-control" id="startDate" placeholder="Start Date" th:field="*{dateFrom}"/>
+							</div>
+							<label for="endDate" class="col-sm-2 col-form-label">End Date</label>
+							<div class="col-sm-4">
+								<input type="date" class="form-control" id="endDate" placeholder="End Date" th:field="*{dateTo}"/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="email" class="col-sm-2 col-form-label">Email</label>
+							<div class="col-sm-4">
+								<input type="email" class="form-control" id="email" placeholder="Email" th:field="*{email}"/>
+							</div>
+						</div>
+            <input type="hidden" th:field="*{orders}"/>
+						<input type="submit" class="btn btn-primary" name="search" value="Search" />
+            <input type="submit" class="btn btn-primary" name="send_report" value="Send Report" />
+					</form>
+				</div>
+		  </div>
+    </div>
+		<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading"> <h3 class="panel-title">Orders</h3> </div>
+			<div class="panel-body">
+			<div class="list-group">
+			    <a href="#" class="list-group-item" th:each="order: ${historicalOrder}">
+			      <h4 class="list-group-item-heading" th:text="'Order ' + ${order.orderDate} + ' / Total: $' + ${order.totalAmount}"></h4>
+			      <!-- <p class="list-group-item-text">List Group Item Text</p> -->
+			      <table class="table table-hover">
+					  <thead>
+					    <tr>
+						    <th>Name</th>
+							<th>Type</th>
+							<th>Price</th>
+							<th>Quantity</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="lineItem : ${order.orderLines}">
+					      <td th:text="${lineItem.product.productName}"></td>
+					      <td th:text="${lineItem.product.productType}"></td>
+					      <td th:text="${lineItem.product.price}"></td>
+					      <td th:text="${lineItem.quantity}"></td>
+					    </tr>
+					  </tbody>
+					</table>
+			    </a>
+			</div>
+			</div>
+		</div>
+		</div>
+		<div th:replace="fragments/footer :: footer"></div>
+	</div>
+</body>
+</html>
