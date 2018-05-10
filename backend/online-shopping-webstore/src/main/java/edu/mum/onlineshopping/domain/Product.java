@@ -15,6 +15,10 @@ public class Product {
 	@Enumerated(EnumType.STRING)
 	private ProductType productType;
 	private String productImage;
+	
+	@ManyToOne
+	@JoinColumn(name="person_id")
+	private Person person;
 
 	public Product() {
 		super(); // default constructor
@@ -76,4 +80,13 @@ public class Product {
 	public void setProductImage(String productImage) {
 		this.productImage = productImage;
 	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+	
 }
