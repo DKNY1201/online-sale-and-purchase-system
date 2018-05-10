@@ -16,13 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import edu.mum.onlineshopping.config.SessionListener;
-import edu.mum.onlineshopping.domain.Card;
 import edu.mum.onlineshopping.domain.Order;
 import edu.mum.onlineshopping.domain.Orderline;
 import edu.mum.onlineshopping.domain.Product;
-import edu.mum.onlineshopping.domain.Transaction;
-import edu.mum.onlineshopping.repository.CardRepository;
-import edu.mum.onlineshopping.repository.TransactionRepository;
 import edu.mum.onlineshopping.service.OrderService;
 import edu.mum.onlineshopping.service.ProductService;
 
@@ -41,12 +37,6 @@ public class OrderController {
 	
 	@Autowired
 	private SessionListener session;
-	
-	@Autowired
-	private CardRepository cardRepo;
-	
-	@Autowired
-	private TransactionRepository transRepo;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String myCart(ModelMap map, Model model, @ModelAttribute Order order) {
@@ -148,7 +138,7 @@ public class OrderController {
 		myOrder.setPerson(session.getPerson());
 		orderService.save(myOrder);
 
-//		this.pay();
+		this.pay();
 
 		// Clear the order session
 		map.addAttribute("myOrder", new Order());
@@ -156,28 +146,8 @@ public class OrderController {
 		return "redirect:/me/order";
 	}
 
-	public String checkPayment() {
-//		Card card = cardRepo.findOne(id);
-//		if(card != null) {
-//			return "No valid card";
-//		}
-//		double availableAmount = card.getValue();
-//		Transaction trans = new Transaction();
-//		trans.setActive(false);
-//		trans.setAvailableAmount(availableAmount);
-//		trans.setCardNumber(card);
-//		trans.setTransactionAmount(paymentAmount);
-//		transRepo.save(trans);
-//		if (paymentAmount > availableAmount) {
-//			return "No valid number";
-//		}
-//		else {
-//			trans.setActive(true);
-//			transRepo.save(trans);
-//			card.setValue(availableAmount - paymentAmount);
-//			cardRepo.save(card);
-//		}
-		return "Success";
+	public void pay() {
+
 	}
 	
 	
