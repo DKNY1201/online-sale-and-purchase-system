@@ -2,6 +2,7 @@ package edu.mum.onlineshopping.service;
 
 import java.util.List;
 
+import edu.mum.onlineshopping.domain.Person;
 import edu.mum.onlineshopping.domain.Product;
 import edu.mum.onlineshopping.domain.ProductType;
 
@@ -22,5 +23,7 @@ public interface ProductService   {
 	List<Product> findByProductType(ProductType productType);
 
 	List<Product> findAllProduct();
+
+	public List<Product> getProductByPerson(Person person);
 	
 }

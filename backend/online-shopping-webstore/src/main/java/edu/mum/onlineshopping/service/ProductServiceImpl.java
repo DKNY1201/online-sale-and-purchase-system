@@ -1,5 +1,6 @@
 package edu.mum.onlineshopping.service;
 
+import edu.mum.onlineshopping.domain.Person;
 import edu.mum.onlineshopping.domain.Product;
 import edu.mum.onlineshopping.domain.ProductType;
 import edu.mum.onlineshopping.repository.ProductRepository;
@@ -29,7 +30,13 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	public List<Product> getAllProduct() {
+
 		return  productRepository.findAll() ;
+	}
+
+	public List<Product> getProductByPerson(Person person) {
+
+		return  productRepository.findByPerson(person) ;
 	}
 	
 	public List<Product> findByTextSearch(String criteria) {
