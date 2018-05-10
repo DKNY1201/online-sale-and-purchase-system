@@ -64,7 +64,7 @@ public class EmailTemplateServiceTest {
 
 		for (int i = 0; i < TEST_NumberOfOrders; i++) {
 			Order order = new Order();
-			order.setId(i+1);
+//			order.setId(i+1);
 			order.setOrderDate(new Date());
 			order.setPerson(testPerson[countPerson++ % TEST_NumberOfPersons]);
 
