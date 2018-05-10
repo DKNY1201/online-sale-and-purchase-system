@@ -2,10 +2,8 @@ package edu.mum.onlineshopping.controller;
 
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import edu.mum.onlineshopping.domain.Person;
-import edu.mum.onlineshopping.service.EmailServiceImpl;
+import edu.mum.onlineshopping.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +31,7 @@ import edu.mum.onlineshopping.service.ProductService;
 @SessionAttributes({"myOrder"})
 public class OrderController {
 	@Autowired
-	public EmailServiceImpl emailService;
+	public EmailService emailService;
 
 	@Autowired
 	private OrderService orderService;
@@ -73,61 +71,19 @@ public class OrderController {
 		for (int i = 0; i < myOrder.getOrderLines().size(); i++) {
 			totalPrice += myOrder.getOrderLines().get(i).getProduct().getPrice() * myOrder.getOrderLines().get(i).getQuantity();
 		}
-		totalPrice = totalPrice + (totalPrice * order.getTAX()/100);
+
 		model.addAttribute("totalPrice", totalPrice);
-//		order.setTotalPrice(totalPrice);
-//		order.setActive(false);
+
 		return "cart/checkout";
 	}
 
 	@RequestMapping(value="/checkout", method=RequestMethod.POST)
-	public String update_checkout(ModelMap map, @ModelAttribute("myOrder") Order order, HttpServletRequest request) {
-		String view = "cart/checkout";
-		String cardNumber = request.getParameter("cardNumber");
-		String expiryYear = request.getParameter("expiryYear");
-		String expiryMonth = request.getParameter("expiryMonth");
-		String cardHolderName = request.getParameter("cardHolderName");
-		String ccv = request.getParameter("cvCode");
-		String checkPaymentResult = this.checkPayment(cardNumber, cardHolderName, expiryYear, expiryMonth, ccv, order.getTotalAmount());
-		if (checkPaymentResult != "Success") {
-			map.addAttribute("errorMsg", checkPaymentResult);
-			return view;
-		}
+	public String update_checkout(ModelMap map, @ModelAttribute("myOrder") Order order) {
 		Order myOrder = getCurrentOrder(map);
 		myOrder.setShippingAddress(order.getShippingAddress());
 		myOrder.setBillingAddress(order.getBillingAddress());
 
 		return "redirect:/cart/submit";
-	}
-	
-	public String checkPayment(String cardNumber, String cardHolderName, String expiryYear, String expiryMonth, String ccv,
-			double paymentAmount) {
-		Card card = cardRepo.findOne(cardNumber);
-		if(card == null) {
-			return "Invalid card";
-		} else {
-			if (!card.getCardHolderName().equals(cardHolderName) || !card.getCcvNumber().equals(ccv) || 
-					!card.getExpiryMonth().equals(expiryMonth) || !card.getExpiryYear().equals(expiryYear)) {
-				return "Invalid card";
-			}
-		}
-		double availableAmount = card.getValue();
-		Transaction trans = new Transaction();
-		trans.setActive(false);
-		trans.setAvailableAmount(availableAmount);
-		trans.setCardNumber(card);
-		trans.setTransactionAmount(paymentAmount);
-		transRepo.save(trans);
-		if (paymentAmount > availableAmount) {
-			return "Your balance is not enough to pay this order";
-		}
-		else {
-			trans.setActive(true);
-			transRepo.save(trans);
-			card.setValue(availableAmount - paymentAmount);
-			cardRepo.save(card);
-		}
-		return "Success";
 	}
 	
 	/***
@@ -182,14 +138,12 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value="/submit", method=RequestMethod.GET)
-	public String submit(ModelMap map, @ModelAttribute("myOrder") Order order, HttpServletRequest request) {
-		String cardNumber = request.getParameter("cardNumber");
+	public String submit(ModelMap map, @ModelAttribute("myOrder") Order order) {
 		Order myOrder = getCurrentOrder(map);
 		// Update the new quantity for each product
 		for (int i = 0; i < myOrder.getOrderLines().size(); i++) {
 			myOrder.getOrderLines().get(i).setQuantity(order.getOrderLines().get(i).getQuantity());
 		}
-		myOrder.setActive(true);
 		myOrder.setOrderDate(new Date());
 		myOrder.setPerson(session.getPerson());
 		orderService.save(myOrder);

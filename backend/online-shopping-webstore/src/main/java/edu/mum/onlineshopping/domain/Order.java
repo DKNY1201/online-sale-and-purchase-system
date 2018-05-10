@@ -20,10 +20,7 @@ public class Order {
 	private List<Orderline> orderLines = new ArrayList<Orderline>();
 	@OneToOne
 	private Person person;
-	
-	@Column(columnDefinition="tinyint(1) default 0")
-	private boolean active;
-	
+
 	@Column(name = "shipping_address")
 	private String shippingAddress;
 
@@ -34,7 +31,7 @@ public class Order {
 	public void setShippingAddress(String shippingAddress) {
 		this.shippingAddress = shippingAddress;
 	}
-	
+
 	@Column(name = "billing_address")
 	private String billingAddress;
 
@@ -57,6 +54,7 @@ public class Order {
 		return id;
 	}
 
+	public void setId(int id) { this.id = id; }
 	public List<Orderline> getOrderLines() {
 		return orderLines;
 	}
@@ -91,7 +89,7 @@ public class Order {
 		for (Orderline ol : this.orderLines) {
 			totalAmount += ol.getSubtotal();
 		}
-		return totalAmount + totalAmount*this.TAX/100;
+		return totalAmount;
 	}
 
 	public void addOrderLine(Orderline orderLine) {
@@ -137,14 +135,6 @@ public class Order {
 
 	public void setOrderLines(List<Orderline> orderLines) {
 		this.orderLines = orderLines;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 }

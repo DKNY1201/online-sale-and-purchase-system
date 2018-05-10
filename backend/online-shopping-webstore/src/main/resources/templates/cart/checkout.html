@@ -21,12 +21,6 @@
                 <div class="panel-body">
                     <div class="row" th:if="${#lists.size(myOrder.orderLines) > 0}">
                         <form th:action="@{/cart/checkout}" method="post">
-                        	<div th:if="${errorMsg != null}" class="alert alert-warning alert-dismissible" role="alert">
-			                    <span th:text="${errorMsg}"> Please input your card again</span>
-			                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			                        <span aria-hidden="true">&times;</span>
-			                    </button>
-			                </div>
                             <div class="form-group row">
                                 <label for="shipping_address" class="col-sm-2 col-form-label">Shipping Address</label>
                                 <div class="col-sm-10">
@@ -59,35 +53,26 @@
                                                             <label for="cardNumber">
                                                                 CARD NUMBER</label>
                                                             <div class="input-group">
-                                                                <input name="cardNumber" type="text" class="form-control" id="cardNumber" maxlength="16"
+                                                                <input type="text" class="form-control" id="cardNumber"
                                                                        placeholder="Valid Card Number"
                                                                        required="true"/>
                                                                 <span class="input-group-addon"><span
                                                                         class="glyphicon glyphicon-lock"></span></span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label for="cardHolderName">
-                                                                CARD HOLDERNAME</label>
-                                                            <div class="input-group">
-                                                                <input name="cardHolderName" type="text" class="form-control" id="cardHolderName"
-                                                                       placeholder="Card Holde Name"
-                                                                       required="true"/>
-                                                            </div>
-                                                        </div>
                                                         <div class="row">
                                                             <div class="col-xs-7 col-md-7">
                                                                 <div class="form-group">
-                                                                    <label for="expiryMonth">
+                                                                    <label for="expityMonth">
                                                                         EXPIRY DATE</label>
                                                                     <div class="col-xs-6 col-lg-6 pl-ziro">
                                                                         <input type="text" class="form-control"
-                                                                               name="expiryMonth" id="expiryMonth" placeholder="MM"
+                                                                               id="expityMonth" placeholder="MM"
                                                                                required="true"/>
                                                                     </div>
                                                                     <div class="col-xs-6 col-lg-6 pl-ziro">
-                                                                        <input type="text" class="form-control" name="expiryYear"
-                                                                               id="expiryYear" placeholder="YY"
+                                                                        <input type="text" class="form-control"
+                                                                               id="expityYear" placeholder="YY"
                                                                                required="true"/></div>
                                                                 </div>
                                                             </div>
@@ -95,7 +80,7 @@
                                                                 <div class="form-group">
                                                                     <label for="cvCode">
                                                                         CVC</label>
-                                                                    <input type="password" class="form-control" name="cvCode" maxlength="3"
+                                                                    <input type="password" class="form-control"
                                                                            id="cvCode" placeholder="CV"
                                                                            required="true"/>
                                                                 </div>
@@ -106,10 +91,9 @@
                                                 <ul class="nav nav-pills nav-stacked">
                                                     <li class="active"><a href="#"><span class="badge pull-right"><span
                                                             class="glyphicon glyphicon-usd"></span><span
-                                                            th:text="${totalPrice}"></span></span> Final Payment (included tax 7%)</a>
+                                                            th:text="${totalPrice}"></span></span> Final Payment</a>
                                                     </li>
                                                 </ul>
-<!--                                                 <input type="hidden" name="totalPrice" value="${totalPrice}"> -->
                                                 <br/>
                                                 <input type="submit" class="btn btn-success btn-lg btn-block"
                                                        value="Place Order" name="placeorder"/>
