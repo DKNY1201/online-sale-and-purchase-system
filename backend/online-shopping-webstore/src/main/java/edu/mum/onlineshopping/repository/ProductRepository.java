@@ -3,6 +3,7 @@ package edu.mum.onlineshopping.repository;
 import java.io.Serializable;
 import java.util.List;
 
+import edu.mum.onlineshopping.domain.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,5 @@ public interface ProductRepository  extends JpaRepository<Product, Serializable>
 	public List<Product> findByProductType(ProductType productType); 
 	public List<Product> findByPriceBetween(Double minPrice, Double maxPrice);
 	public List<Product> findAll();
+	public List<Product> findByPerson(Person person);
 }

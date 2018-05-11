@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.mum.onlineshopping.config.SessionListener;
+import edu.mum.onlineshopping.domain.Person;
+import edu.mum.onlineshopping.domain.User;
+import edu.mum.onlineshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +29,22 @@ public class ProductManagementController {
 
 	@Autowired
 	private SessionListener session;
+
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String list(Model model) {
-		model.addAttribute("products", service.getAllProduct());
+		Person person = session.getPerson();
+		User user = userService.findByEmail(person.getEmail());
+
+		if (user.getRoles().contains(1)) {
+			model.addAttribute("products", service.getAllProduct());
+		} else {
+			model.addAttribute("products", service.getProductByPerson(person));
+		}
+
+
 		return "admin/product/index";
 	}
 	
