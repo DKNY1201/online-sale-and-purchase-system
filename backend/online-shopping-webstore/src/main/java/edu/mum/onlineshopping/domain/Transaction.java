@@ -2,6 +2,7 @@ package edu.mum.onlineshopping.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -26,6 +27,7 @@ public class Transaction {
 	private Card cardNumber;
 	private double transactionAmount;
 	private double availableAmount;
+	@Column(columnDefinition="tinyint(1) default 0")
 	private boolean active;
 	@Temporal(TemporalType.DATE)
 	private Date paymentDate;

@@ -101,41 +101,53 @@
                                             </h3>
                                         </div>
                                         <div class="panel-body">
-                                            <div class="form-group">
-                                                <label for="cardNumber">
-                                                    CARD NUMBER</label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="cardNumber"
-                                                           placeholder="Valid Card Number"
-                                                           required="true"/>
-                                                    <span class="input-group-addon"><span
-                                                            class="glyphicon glyphicon-lock"></span></span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-7 col-md-7">
-                                                    <div class="form-group">
-                                                        <label for="expityMonth">
-                                                            EXPIRY DATE</label>
-                                                        <div class="col-xs-6 col-lg-6 pl-ziro">
-                                                            <input type="text" class="form-control" id="expityMonth"
-                                                                   placeholder="MM" required="true"/>
+                                                        <div class="form-group">
+                                                            <label for="cardNumber">
+                                                                CARD NUMBER</label>
+                                                            <div class="input-group">
+                                                                <input name="cardNumber" type="text" class="form-control" id="cardNumber" maxlength="16"
+                                                                       placeholder="Valid Card Number"
+                                                                       required="true"/>
+                                                                <span class="input-group-addon"><span
+                                                                        class="glyphicon glyphicon-lock"></span></span>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-xs-6 col-lg-6 pl-ziro">
-                                                            <input type="text" class="form-control" id="expityYear"
-                                                                   placeholder="YY" required="true"/></div>
+                                                        <div class="form-group">
+                                                            <label for="cardHolderName">
+                                                                CARD HOLDERNAME</label>
+                                                            <div class="input-group">
+                                                                <input name="cardHolderName" type="text" class="form-control" id="cardHolderName"
+                                                                       placeholder="Card Holde Name"
+                                                                       required="true"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-7 col-md-7">
+                                                                <div class="form-group">
+                                                                    <label for="expiryMonth">
+                                                                        EXPIRY DATE</label>
+                                                                    <div class="col-xs-6 col-lg-6 pl-ziro">
+                                                                        <input type="number" class="form-control"
+                                                                               name="expiryMonth" id="expiryMonth" placeholder="MM" max="12" min="1"
+                                                                               required="true"/>
+                                                                    </div>
+                                                                    <div class="col-xs-6 col-lg-6 pl-ziro">
+                                                                        <input type="text" class="form-control" name="expiryYear"
+                                                                               id="expiryYear" placeholder="YY" maxlength="4"
+                                                                               required="true"/></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-5 col-md-5 pull-right">
+                                                                <div class="form-group">
+                                                                    <label for="cvCode">
+                                                                        CVC</label>
+                                                                    <input type="password" class="form-control" name="cvCode" maxlength="3"
+                                                                           id="cvCode" placeholder="CV"
+                                                                           required="true"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-xs-5 col-md-5 pull-right">
-                                                    <div class="form-group">
-                                                        <label for="cvCode">
-                                                            CVC</label>
-                                                        <input type="password" class="form-control" id="cvCode"
-                                                               placeholder="CV" required="true"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <ul class="nav nav-pills nav-stacked">
                                         <li class="active"><a href="#"><span class="badge pull-right"><span

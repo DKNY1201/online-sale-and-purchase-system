@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import edu.mum.onlineshopping.domain.Person;
-import edu.mum.onlineshopping.service.EmailServiceImpl;
+import edu.mum.onlineshopping.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,15 +22,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.client.RestTemplate;
 
 import edu.mum.onlineshopping.config.SessionListener;
-import edu.mum.onlineshopping.domain.Card;
 import edu.mum.onlineshopping.domain.Order;
 import edu.mum.onlineshopping.domain.Orderline;
 import edu.mum.onlineshopping.domain.Payment;
 import edu.mum.onlineshopping.domain.PaymentType;
 import edu.mum.onlineshopping.domain.Product;
-import edu.mum.onlineshopping.domain.Transaction;
-import edu.mum.onlineshopping.repository.CardRepository;
-import edu.mum.onlineshopping.repository.TransactionRepository;
 import edu.mum.onlineshopping.service.OrderService;
 import edu.mum.onlineshopping.service.PaymentService;
 import edu.mum.onlineshopping.service.ProductService;
@@ -40,7 +36,7 @@ import edu.mum.onlineshopping.service.ProductService;
 @SessionAttributes({"myOrder"})
 public class OrderController {
 	@Autowired
-	public EmailServiceImpl emailService;
+	public EmailService emailService;
 
 	@Autowired
 	private OrderService orderService;
@@ -77,10 +73,9 @@ public class OrderController {
 		for (int i = 0; i < myOrder.getOrderLines().size(); i++) {
 			totalPrice += myOrder.getOrderLines().get(i).getProduct().getPrice() * myOrder.getOrderLines().get(i).getQuantity();
 		}
-		totalPrice = totalPrice + (totalPrice * order.getTAX()/100);
+
 		model.addAttribute("totalPrice", totalPrice);
-//		order.setTotalPrice(totalPrice);
-//		order.setActive(false);
+
 		return "cart/checkout";
 	}
 
@@ -169,14 +164,12 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value="/submit", method=RequestMethod.GET)
-	public String submit(ModelMap map, @ModelAttribute("myOrder") Order order, HttpServletRequest request) {
-		String cardNumber = request.getParameter("cardNumber");
+	public String submit(ModelMap map, @ModelAttribute("myOrder") Order order) {
 		Order myOrder = getCurrentOrder(map);
 		// Update the new quantity for each product
 		for (int i = 0; i < myOrder.getOrderLines().size(); i++) {
 			myOrder.getOrderLines().get(i).setQuantity(order.getOrderLines().get(i).getQuantity());
 		}
-		myOrder.setActive(true);
 		myOrder.setOrderDate(new Date());
 		myOrder.setPerson(session.getPerson());
 		orderService.save(myOrder);

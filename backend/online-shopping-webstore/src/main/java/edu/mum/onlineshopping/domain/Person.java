@@ -1,14 +1,8 @@
 package edu.mum.onlineshopping.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -24,13 +18,27 @@ public class Person {
 	private Address address = new Address();
 	private String phone;
 	private boolean enable;
+//
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+//	private List<Product> products = new ArrayList<>();
 	
 	@Transient
 	private String password;
 	
 	@Transient
 	private Integer role;
-	
+
+//	public List<Product> getProducts() {
+//		return products;
+//	}
+//
+//	public void addProduct(Product product) {
+//		if (this.getRole() == 3 && !this.getProducts().contains(product)) {
+//			this.products.add(product);
+//			product.setPerson(this);
+//		}
+//	}
+
 	public long getId() {
 		return id;
 	}

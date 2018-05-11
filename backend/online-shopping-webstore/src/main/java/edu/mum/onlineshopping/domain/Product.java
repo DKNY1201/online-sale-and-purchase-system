@@ -16,9 +16,22 @@ public class Product {
 	private ProductType productType;
 	private String productImage;
 	
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name="person_id")
+	private Person person;*/
+
+//	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//	@JoinColumn(name = "person_id")
+	@OneToOne
 	private Person person;
+
+	/*public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}*/
 
 	public Product() {
 		super(); // default constructor
